@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/181a2bd762.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="" title="Menu"><img src="images/menu.png" alt="Menú"></a>
+            <h1>To-Do List</h1>
+            <a href="" title="Login"><img src="images/user.png" alt="Login"></a>
+        </nav>
+    </header>
+  
+    <section id="back" class="section-back hidden">
+      <div class="back">
+      </div>
+      <h3>Nada para hacer <i class="fa-regular fa-face-smile"></i></h3>
+    </section>
+    
+    <section class="tasks"  id="tasks">
+      <div class="cerrar">
+        <button title="Eliminar completadas" onclick="deleteCompleted()"><i class="fa-regular fa-circle-xmark"></i></button>
+      </div>
+      <div class="task-list"  id="task-list">
+
+      </div>
+    </section>
+
+    <section id="form" class="hidden">
+      <div class="cerrar">
+        <button title="Cerrar" onclick="closeNewTask()"><i class="fa-regular fa-circle-xmark"></i></button>
+      </div>
+        <h2 class="header">Nueva tarea</h2>
+        <div>
+          <form>        
+            <label for="form-title">Título (*)</label>
+              <input type="text" name="titulo" id="form-title" required></input>
+            <label for="form-desc">Descripción</label>
+              <textarea id="form-desc" name="descripcion" rows="4"></textarea>
+            <label for="form-cat">Tipo de tarea</label>
+            <select name="Seleccionar" form="form" id="form-cat">
+              <option value="work" selected>Trabajo</option>
+              <option value="personal">Personal</option>
+              <option value="home">Domestica</option>
+              <option value="fun">Entretenimiento</option>
+            </select>
+            <label for="form">Prioridad</label>
+            <div class="custom-radios">
+              <div>
+                <input type="radio" id="color-1" name="color" value="0" checked>
+                <label for="color-1">
+                  <span>
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" title="Ninguna" alt="Checked Icon" />
+                  </span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="color-2" name="color" value="1">
+                <label for="color-2">
+                  <span>
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" title="Baja" alt="Checked Icon" />
+                  </span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="color-3" name="color" value="2">
+                <label for="color-3">
+                  <span>
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" title="Media" alt="Checked Icon" />
+                  </span>
+                </label>
+              </div>
+              <div>
+                <input type="radio" id="color-4" name="color" value="3">
+                <label for="color-4">
+                  <span>
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" title="Alta" alt="Checked Icon" />
+                  </span>
+                </label>
+              </div>
+            </div>
+            <button type="button" class="btnAdd" onclick="addNewTask()">Agregar</button>
+          </form>
+          
+        </div>
+    </section>
+    <footer>
+        <button id="add" title="Nueva Tarea" onclick="popupNewTask()"><img src="images/add.png" alt="Add new" ></button>
+    </footer>
+    <script src="main.js"></script>
+</body>
+</html>
