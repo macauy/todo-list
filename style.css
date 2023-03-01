@@ -136,7 +136,7 @@ header img {
 }
 
 .borrar {
-  opacity: 0;
+  *opacity: 0;
 }
 
 i:hover {
