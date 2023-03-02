@@ -28,12 +28,12 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
 }
 
 header img {
     width: 24px;
     height: 24px;
+    cursor: pointer;
 }
 
 .hidden {
@@ -78,7 +78,11 @@ header img {
 #tasks .delete {
   float: right;
   margin-bottom: 10px;
-  
+  cursor: pointer;
+}
+
+#tasks .delete label {
+  cursor: pointer;
 }
 
 #tasks .delete > i {
@@ -101,13 +105,10 @@ header img {
   background: #ddd;
 }
 
-.task-item:active, .completed {
-  text-decoration: line-through;
-  background: #bebebe;  
-}
-
 .completed {
-  padding: 10px 10px;
+  text-decoration: line-through;
+  background: #BDBDBD;  
+  padding: 8px 8px;
 }
 
 .high-priority {
@@ -127,6 +128,13 @@ header img {
   cursor: pointer;
 }
 
+.borrar {
+  margin-left: 10px;
+}
+
+.check {
+  transition: all 1s ease;
+}
 .task-item i {
   font-size: 1.3em;
 }
@@ -181,6 +189,10 @@ textarea {
     height: 32px;
   }
   
+  #form option {
+    font-size: 1.1em;
+  }
+
   #form textarea {
     width: 100%;
     font-family: sans-serif;
@@ -294,4 +306,48 @@ button {
 footer img {
     width: 44px;
     height: 44px;
+}
+
+
+
+
+
+/*Checkboxes styles*/
+input[type="checkbox"] { display: none; }
+
+input[type="checkbox"] + label {
+  *display: block;
+  position: relative;
+  
+  margin-bottom: 20px;
+  font: 14px/20px 'Open Sans', Arial, sans-serif;
+  color: black;
+  cursor: pointer;
+}
+
+
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 17px;
+  height: 17px;
+  border: 2px solid black;
+  position: absolute;
+  left: 0;
+  top: -4;
+  opacity: .6;
+  -webkit-transition: all .10s, border-color .08s;
+  transition: all .10s, border-color .08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -8px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

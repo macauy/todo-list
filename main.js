@@ -52,6 +52,7 @@ function loadTasks() {
 
 function renderTask(task,index) {
     let prioClass = '';
+    let checkClass = ''
     switch (task.prioridad) {
         case 0: prioClass=''
         break;
@@ -65,6 +66,7 @@ function renderTask(task,index) {
     
     if (task.completada) {
         prioClass += ' completed'
+        checkClass = 'checked'
     }
 
     let catClass = '';
@@ -87,12 +89,18 @@ function renderTask(task,index) {
             break;
     }
 
-    let item = `<div class="task-item ${prioClass}" onclick="markTaskResolved(this,${index})">
+    let item = `<div class="task-item ${prioClass}">
     <i class="fa-solid ${catClass}" title="${catTitle}"></i>
-    <label title="Marcar completada">
+    <label>
         <h3>${task.titulo}</h3>
         <small>${task.descripcion}</small>
     </label>
+    
+    <div class="boxes">
+        <input type="checkbox" id="${index}"  ${checkClass}>
+        <label for="${index}" onclick="markTaskResolved(this,${index})"></label>
+    </div>
+
     <div class="borrar" onclick="deleteTask(event,${index})"><i class="fa-regular fa-trash-can" title="Eliminar"></i></div>
     </div>`;
 
@@ -182,8 +190,7 @@ function addNewTask() {
 }
 
 function markTaskResolved(item,index) {
-
-    item.classList.toggle('completed')
+    item.parentNode.parentNode.classList.toggle('completed')
 
     // marcar completada la tarea en la coleccion
     tasks[index].completada = (!tasks[index].completada)
