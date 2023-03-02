@@ -9,6 +9,9 @@ let task = {
 }
 */
 
+// Variables globales
+let hayCompletadas = false
+
 // LOAD inicial
 window.addEventListener("load", function() {
     tasks = JSON.parse(localStorage.getItem('TASKS'));
@@ -25,6 +28,7 @@ const form = document.getElementById('form')
 const back = document.getElementById('back')
 const list = document.getElementById('tasks')
 const taskList = document.getElementById('task-list')
+const deleteOption = document.getElementById('delete-completed')
 
 // Funciones
 function loadTasks() {
@@ -35,6 +39,10 @@ function loadTasks() {
         tasks.forEach( (item,index) => {
             renderTask(item,index) 
         })
+
+        // Actualizar completados
+        updateCompleted()
+
     } else {
         loadEmptyTaks()
     }
@@ -119,6 +127,17 @@ function loadEmptyTaks() {
         back.classList.remove('hidden') 
 }
 
+function showCompleted(){
+    if (hayCompletadas) {
+        if (deleteOption.classList.contains('hidden'))
+            deleteOption.classList.remove('hidden') 
+    } else {
+        if (!deleteOption.classList.contains('hidden'))
+            deleteOption.classList.add('hidden') 
+    }
+
+}
+
 
 function addNewTask() {
 
@@ -169,6 +188,10 @@ function markTaskResolved(item,index) {
     // marcar completada la tarea en la coleccion
     tasks[index].completada = (!tasks[index].completada)
 
+    // actualizar completadas
+    updateCompleted()
+    
+
     // actualizar LocalStorage
     setLocalStorage()
 }
@@ -185,8 +208,12 @@ function deleteTask(event,index) {
 
 function deleteCompleted() {
     tasks = tasks.filter(item => item.completada==false)
-
     loadTasks()
+}
+
+function updateCompleted() {
+    hayCompletadas = tasks.some((item) => item.completada==true)
+    showCompleted()
 }
 
 function setLocalStorage(){

@@ -75,13 +75,14 @@ header img {
     box-shadow: 1px 3px 10px 1px #aaa;
 }
 
-#tasks .cerrar button {
+#tasks .delete {
   float: right;
-  position: relative;
-  right: 2px;
-  top: 1px;
-  font-size: 1.5em; 
   margin-bottom: 10px;
+  
+}
+
+#tasks .delete > i {
+  margin-right: 5px;
 }
 
 .task-item {
@@ -135,17 +136,10 @@ header img {
   margin: 0px 14px;
 }
 
-.borrar {
-  *opacity: 0;
-}
-
 i:hover {
   color: #1558d6;
 }
 
-.task-item:hover > .borrar {
-  opacity: 100;
-}
 
 
 
