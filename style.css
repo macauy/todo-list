@@ -14,7 +14,7 @@ body {
     font-family: system-ui, sans-serif;
     background-color:#e4e4e4;
     font-size: 16px;
-    margin-bottom: 60px;
+    margin-bottom: 85px;
 }
 
 header {
@@ -47,7 +47,7 @@ header img {
 .section-back {
   text-align: center;
   width: 100%;
-  margin: 10% auto 10px;
+  margin: 20% auto 10px;
 }
 
 .back {
@@ -56,7 +56,7 @@ header img {
   width: 30%;
   min-width: 100px;
   margin: 0 auto;
-  min-height: 200px;
+  min-height: 180px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -111,6 +111,7 @@ header img {
   padding: 8px 8px;
 }
 
+
 .high-priority {
   border-left: 3px solid red;
 }
@@ -132,14 +133,11 @@ header img {
   margin-left: 10px;
 }
 
-.check {
-  transition: all 1s ease;
-}
 .task-item i {
   font-size: 1.3em;
 }
 
-.task-item label {
+.task-item > label {
   flex-grow: 2;
   margin: 0px 14px;
 }
@@ -148,6 +146,13 @@ i:hover {
   color: #1558d6;
 }
 
+input[type="checkbox"] { 
+  display: none; 
+}
+
+input[type="checkbox"] + label {
+  cursor: pointer;
+}
 
 
 
@@ -251,7 +256,7 @@ textarea {
 
 .custom-radios label span img {
   opacity: 0;
-  transition: all .2s ease;
+  transition: all .1s ease;
 }
       
   
@@ -288,13 +293,12 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 50px;
+  height: 75px;
 }
 
 footer button {
   float: right;
-  margin-right: 5px;
-  
+  margin-right: 15px;
 }
 
 button {
@@ -304,50 +308,6 @@ button {
 }
 
 footer img {
-    width: 44px;
-    height: 44px;
-}
-
-
-
-
-
-/*Checkboxes styles*/
-input[type="checkbox"] { display: none; }
-
-input[type="checkbox"] + label {
-  *display: block;
-  position: relative;
-  
-  margin-bottom: 20px;
-  font: 14px/20px 'Open Sans', Arial, sans-serif;
-  color: black;
-  cursor: pointer;
-}
-
-
-input[type="checkbox"] + label:before {
-  content: '';
-  display: block;
-  width: 17px;
-  height: 17px;
-  border: 2px solid black;
-  position: absolute;
-  left: 0;
-  top: -4;
-  opacity: .6;
-  -webkit-transition: all .10s, border-color .08s;
-  transition: all .10s, border-color .08s;
-}
-
-input[type="checkbox"]:checked + label:before {
-  width: 10px;
-  top: -8px;
-  left: 5px;
-  border-radius: 0;
-  opacity: 1;
-  border-top-color: transparent;
-  border-left-color: transparent;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
+    width: 55px;
+    height: 55px;
 }

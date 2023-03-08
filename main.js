@@ -10,25 +10,27 @@ let task = {
 */
 
 // Variables globales
+let tasks = []
 let hayCompletadas = false
+
+// Elementos del DOM
+const form = document.getElementById('form')
+const back = document.getElementById('back')
+const list = document.getElementById('tasks')
+const taskList = document.getElementById('task-list')
+const deleteOption = document.getElementById('delete-completed')
+
+
+
 
 // LOAD inicial
 window.addEventListener("load", function() {
     tasks = JSON.parse(localStorage.getItem('TASKS'));
     if (tasks==null){
         tasks = []
-
     }
     loadTasks()
 });
-
-// Elementos del DOM
-const add = document.getElementById('add')
-const form = document.getElementById('form')
-const back = document.getElementById('back')
-const list = document.getElementById('tasks')
-const taskList = document.getElementById('task-list')
-const deleteOption = document.getElementById('delete-completed')
 
 // Funciones
 function loadTasks() {
@@ -53,6 +55,8 @@ function loadTasks() {
 function renderTask(task,index) {
     let prioClass = '';
     let checkClass = ''
+    let check = '<i class="fa-regular fa-square"></i>'
+
     switch (task.prioridad) {
         case 0: prioClass=''
         break;
@@ -67,6 +71,7 @@ function renderTask(task,index) {
     if (task.completada) {
         prioClass += ' completed'
         checkClass = 'checked'
+        check = '<i class="fa-solid fa-check"></i>'
     }
 
     let catClass = '';
@@ -89,64 +94,75 @@ function renderTask(task,index) {
             break;
     }
 
-    let item = `<div class="task-item ${prioClass}">
-    <i class="fa-solid ${catClass}" title="${catTitle}"></i>
-    <label>
-        <h3>${task.titulo}</h3>
-        <small>${task.descripcion}</small>
-    </label>
-    
-    <div class="boxes">
-        <input type="checkbox" id="${index}"  ${checkClass}>
-        <label for="${index}" onclick="markTaskResolved(this,${index})"></label>
-    </div>
-
-    <div class="borrar" onclick="deleteTask(event,${index})"><i class="fa-regular fa-trash-can" title="Eliminar"></i></div>
+    let item = 
+    `<div class="task-item ${prioClass}">
+        <i class="fa-solid ${catClass}" title="${catTitle}"></i>
+        <label>
+            <h3>${task.titulo}</h3>
+            <small>${task.descripcion}</small>
+        </label>
+        <div class="borrar">
+            <input type="checkbox" id="${index}" ${checkClass}>
+            <label for="${index}" onclick="markTaskResolved(event,${index})">${check}</label>
+        </div>
+        <div class="borrar" onclick="deleteTask(event,${index})"><i class="fa-regular fa-trash-can" title="Eliminar"></i></div>
     </div>`;
-
     taskList.innerHTML += item;
 }
 
+
+// Eventos asociados al DOM
+
+// Abrir FORM
 function popupNewTask() {
     form.classList.remove('hidden')
-
     if (!back.classList.contains('hidden'))
         back.classList.add('hidden') 
     if (!list.classList.contains('hidden'))
         list.classList.add('hidden')     
 }
 
+// Cerrar FORM
 function closeNewTask() {
     form.classList.add('hidden')
     loadTasks()
 }
 
-function showTasks() {
-    if (list.classList.contains('hidden'))
-    list.classList.remove('hidden') 
+// Marcar Resuelta
+function markTaskResolved(event,index) {
+    event.target.parentNode.parentNode.parentNode.classList.toggle('completed')
+    
+    // marcar completada la tarea en la coleccion
+    tasks[index].completada = (!tasks[index].completada)
 
-    if (!back.classList.contains('hidden'))
-        back.classList.add('hidden') 
+    tasks[index].completada ? event.target.parentNode.innerHTML = '<i class="fa-solid fa-check"></i>' : event.target.parentNode.innerHTML = '<i class="fa-regular fa-square"></i>'
+
+    // actualizar completadas
+    updateCompleted()
+    
+    // actualizar LocalStorage
+    setLocalStorage()
 }
 
-function loadEmptyTaks() {
-    list.classList.add('hidden')
-    if (back.classList.contains('hidden'))
-        back.classList.remove('hidden') 
+// Eliminar tarea
+function deleteTask(event,index) {
+    event.stopPropagation()
+    
+    // sacar de la coleccion de tareas
+    tasks.splice(index,1)
+
+    // regargo tareas
+    loadTasks()
 }
 
-function showCompleted(){
-    if (hayCompletadas) {
-        if (deleteOption.classList.contains('hidden'))
-            deleteOption.classList.remove('hidden') 
-    } else {
-        if (!deleteOption.classList.contains('hidden'))
-            deleteOption.classList.add('hidden') 
-    }
-
+// Eliminar completadas
+function deleteCompleted() {
+    tasks = tasks.filter(item => item.completada==false)
+    loadTasks()
 }
 
 
+// LOGICA
 function addNewTask() {
 
     const title = document.getElementById('form-title')
@@ -171,10 +187,6 @@ function addNewTask() {
         let prio1 = document.getElementById('color-1')
         prio1.checked = true
 
-
-        // renderizo tarea creada
-        //renderTask(newTask,tasks.length)
-
         // agrego tarea a coleccion
         tasks.push(newTask)
 
@@ -183,48 +195,40 @@ function addNewTask() {
 
         // actualizar LocalStorage
         setLocalStorage()
-
     } else {
         title.focus()
     }    
 }
 
-function markTaskResolved(item,index) {
-    item.parentNode.parentNode.classList.toggle('completed')
-
-    // marcar completada la tarea en la coleccion
-    tasks[index].completada = (!tasks[index].completada)
-
-    // actualizar completadas
-    updateCompleted()
-    
-
-    // actualizar LocalStorage
-    setLocalStorage()
-}
-
-function deleteTask(event,index) {
-    event.stopPropagation()
-    
-    // sacar de la coleccion de tareas
-    tasks.splice(index,1)
-
-    // regargo tareas
-    loadTasks()
-}
-
-function deleteCompleted() {
-    tasks = tasks.filter(item => item.completada==false)
-    loadTasks()
-}
-
 function updateCompleted() {
     hayCompletadas = tasks.some((item) => item.completada==true)
-    showCompleted()
+    if (hayCompletadas) {
+        deleteOption.style.display = 'block'
+    } else {
+        deleteOption.style.display = 'none'
+    }
 }
 
+
+// Auxiliares para manipular DOM
+function showTasks() {
+    if (list.classList.contains('hidden'))
+        list.classList.remove('hidden') 
+
+    if (!back.classList.contains('hidden'))
+        back.classList.add('hidden') 
+}
+
+function loadEmptyTaks() {
+    list.classList.add('hidden')
+    if (back.classList.contains('hidden'))
+        back.classList.remove('hidden') 
+}
+
+
+
+// LOCAL STORAGE
 function setLocalStorage(){
-    // actualizar LocalStorage
     localStorage.setItem('TASKS', JSON.stringify(tasks));
 }
 
